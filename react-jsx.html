@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>react-jsx</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="example"></div>
+    <script type="text/babel">
+        const element = <div className="foo">带class名的</div>;
+        ReactDOM.render(element, document.getElementById("example"));
+
+    </script>
+
+    <!-- js表达式 -->
+    <div id="expression"></div>
+    <script type="text/babel">
+        let element = <h1>{1 + 1}</h1>
+
+
+        ReactDOM.render(
+            element,
+            document.getElementById("expression")
+        )
+
+
+
+    </script>
+
+    <!-- jsx不能使用if else 语句   推荐使用三目运算 -->
+    <div id="conditional"></div>
+
+    <script type="text/babel">
+        let i = 2;
+        const conditional = <h1>{i === 1 ? "true":"false"}</h1>
+        ReactDOM.render(
+            conditional,
+            document.getElementById("conditional")
+        )
+    </script>
+
+    <!-- react推荐使用内联样式 -->
+    <div id="camelCase"></div>
+
+    <script type="text/babel">
+        let myStyle={
+            fontSize:100,
+            color:"#ff0000"
+        }
+        ReactDOM.render(
+            <h2 style={myStyle}>我是内联样式</h2>,
+            document.getElementById("camelCase")
+        )
+    </script>
+
+    <!-- 数组   jsx允许在模板中插入数组，数组会自动展开所有成员 -->
+    <div id="arr"></div>
+
+    <script type="text/babel">
+        let arr=[
+            <h1>我是标题</h1>,
+            <h2>我是身体</h2>
+        ]
+
+        ReactDOM.render(
+            <div>{arr}</div>,
+            document.getElementById("arr")
+        )
+
+    </script>
+
+
+
+</body>
+
+</html>

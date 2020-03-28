@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>react-props</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+    <script src="https://cdn.bootcss.com/prop-types/15.6.1/prop-types.js"></script>
+</head>
+<body>
+    <!-- state和props的主要区别就是props数据是不可变的，而state可以根据与用户交互来改变 -->
+    <div id="example"></div>
+
+    <script type="text/babel">
+        let HelloMessage = props => {
+            return <h1>{props.name}</h1>
+        }
+
+        ReactDOM.render(
+            <HelloMessage name="小六"/>,
+            document.getElementById("example")
+        )
+    </script>
+
+    <!-- 可以通过组件类的defauleProps为props设置属性值 -->
+    <div id="defaultProps"></div>
+
+    <script type="text/babel">
+        class DefaultProps extends React.Component{
+            render(){
+                return(
+                    <h1>hello,{this.props.name}</h1>
+                )
+            }
+        }
+
+        DefaultProps.defaultProps = {
+            name : '小六'
+        }
+
+        ReactDOM.render(
+            <DefaultProps/>,
+            document.getElementById("defaultProps")
+        )
+    </script>
+
+    <!-- 以下示例中展示了如何应用组合state和props,我们可以在父组件中设置state,并通过子组件上使用props将其传递到子组件上。 -->
+    <div id="stateProp"></div>
+
+    <script type="text/babel">
+        class WebSite extends React.Component{
+            constructor(){
+                super();
+                this.state = {
+                    name:"小六",
+                    site:"http://www.baidu.com"
+                }
+            }
+
+            render(){
+                return(
+                    <div>
+                        <Name name={this.state.name}/>
+                        <Site site={this.state.site}/>
+                    </div>
+                )
+            }
+        }
+
+
+        class Name extends React.Component{
+            render(){
+                return <h1>{this.props.name}</h1>
+            }
+        }
+
+        class Site extends React.Component{
+            render(){
+                return <h2>{this.props.site}</h2>
+            }
+        }
+
+        ReactDOM.render(
+            <WebSite/>,
+            document.getElementById("stateProp")
+        )
+    </script>
+
+    <!-- props验证 -->
+    <div id="propsType"></div>
+
+    <script type="text/babel">
+        let title = "天行者";
+        class MyTitle extends React.Component{
+            render(){
+                return <h3>hello,{this.props.title}</h3>
+            }
+        }
+
+        MyTitle.propTypes = {
+            title:PropTypes.string
+        }
+
+        ReactDOM.render(
+            <MyTitle title={title}/>,
+            document.getElementById("propsType")
+        )
+    </script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>react组件</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="example"></div>
+    <script type="text/babel">
+        let HelloMessage = props => {
+            return <h1>hello world!</h1>
+        }
+
+        ReactDOM.render(
+            <HelloMessage/>,
+            document.getElementById("example")
+        )
+    </script>
+
+    <!-- 使用class定义组件 -->
+    <div id="exampleClass"></div>
+
+    <script type="text/babel">
+        class Welcom extends React.Component{
+            render(){
+                return <h2>hello world</h2>
+            }
+        }
+
+        ReactDOM.render(
+            <Welcom/>,
+            document.getElementById("exampleClass")
+        )
+    </script>
+
+    <!-- 组件传值使用function -->
+    <div id="funProps"></div>
+
+    <script type="text/babel">
+        let FunProps = props => {
+
+            return <h3>hello {props.name}</h3>
+        }
+
+        ReactDOM.render(
+            <FunProps name="小六"/>,
+            document.getElementById("funProps")
+        )
+    </script>
+
+    <!-- 组件传值使用class -->
+    <div id="classProps"></div>
+
+    <script type="text/babel">
+        class ClassProps extends React.Component{
+            render(){
+                return <h3>hello {this.props.name}</h3>
+            }
+        }
+
+        ReactDOM.render(
+            <ClassProps name="小六"/>,
+            document.getElementById("classProps")
+        )
+    </script>
+
+    <!-- 复合组件 -->
+    <div id="app"></div>
+    <script type="text/babel">
+        let Name = props => {
+           return <h3>姓名：{props.name}</h3>
+        }
+        let Url = props => {
+           return <h3>链接：{props.url}</h3>
+        }
+        let TickName = props => {
+           return <h3>小名：{props.tickName}</h3>
+        }
+
+        let App = () => {
+            return (
+                <div>
+                    <Name name="小六"/>
+                    <Url url="http://www.baidu.com"/>
+                    <TickName tickName="胖子"/>
+                </div>
+            )
+        }
+
+        ReactDOM.render(
+            <App/>,
+            document.getElementById("app")
+        )
+    </script>
+
+</body>
+</html>
