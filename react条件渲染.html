@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>react条件渲染</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+
+<body>
+    <div id="example"></div>
+    <script type="text/babel">
+        let UserGreeting = props => {
+            return <h1>欢迎回来!</h1>;
+        }
+        let GuestGreeting = props => {
+            return <h1>请先注册。</h1>;
+        }
+
+        let Greeting = props => {
+            const isLoginIn = props.isLoginIn;
+            if (isLoginIn) {
+                return <UserGreeting />
+            } else {
+                return <GuestGreeting />
+            }
+        }
+
+        ReactDOM.render(
+            <Greeting isLoginIn={false} />,
+            document.getElementById("example"))
+    </script>
+
+    <!-- 你可以使用元素变量来储存元素。 -->
+
+
+    <div id="login"></div>
+
+    <script type="text/babel">
+
+        class LoginControl extends React.Component {
+            constructor(props) {
+                super(props);
+                this.handelLoginClick = this.handelLoginClick.bind(this);
+                this.handelLogoutClick = this.handelLogoutClick.bind(this);
+                this.state = { isLoginIn: false }
+            }
+
+            handelLoginClick() {
+                this.setState({
+                    isLoginIn: true
+                })
+            }
+
+            handelLogoutClick() {
+                this.setState({
+                    isLoginIn: false
+                })
+            }
+
+            render() {
+                const isLoginIn = this.state.isLoginIn;
+
+                let button = null;
+                if (isLoginIn) {
+                    button = <LogoutButton onClick={this.handelLogoutClick} />
+                } else {
+                    button = <LoginButton onClick={this.handelLoginClick} />
+                }
+
+                return (
+                    <div>
+                        <Greeting isLoginIn={isLoginIn} />
+                        {button}
+                    </div>
+                )
+            }
+
+
+        }
+
+        let UserGreeting = props => {
+            return <h1>欢迎回来!</h1>;
+        }
+        let GuestGreeting = props => {
+            return <h1>请先注册。</h1>;
+        }
+
+        let Greeting = props => {
+            const isLoginIn = props.isLoginIn;
+            if (isLoginIn) {
+                return <UserGreeting />
+            } else {
+                return <GuestGreeting />
+            }
+        }
+
+        let LogoutButton = props => {
+            return (
+                <button onClick={props.onClick}>退出</button>
+            )
+        }
+
+        let LoginButton = props => {
+            return (
+                <button onClick={props.onClick}>登录</button>
+            )
+        }
+
+        ReactDOM.render(
+            <LoginControl />,
+            document.getElementById("login")
+        )
+
+    </script>
+
+
+    <!-- &&运算符 -->
+    <!-- true && expression 总是返回 expression，而 false && expression 总是返回 false。
+
+因此，如果条件是 true，&& 右侧的元素就会被渲染，如果是 false，React 会忽略并跳过它。 -->
+
+
+    <div id="expression"></div>
+
+    <script type="text/babel">
+        class Mailbox extends React.Component {
+            render() {
+                const unreadMessages = this.props.unreadMessages;
+
+                return (
+                    <div>
+                        <h1>hello</h1>
+                        {unreadMessages.length > 0 &&
+                            <h2>您有{unreadMessages.length}条未读消息</h2>
+                        }
+                    </div>
+                )
+            }
+        }
+
+        const message = ["111"];
+
+        ReactDOM.render(
+            <Mailbox unreadMessages={message} />,
+            document.getElementById("expression")
+        )
+
+    </script>
+    <!-- 三目运算符 -->
+    <!-- condition ? true : false。 -->
+
+
+
+
+    <!-- 阻止组件渲染 -->
+    <!-- 在极少数情况下，你可能希望隐藏组件，即使它被其他组件渲染。让 render 方法返回 null 而不是它的渲染结果即可实现。 -->
+    <!-- 在下面的例子中，<WarningBanner /> 根据属性 warn 的值条件渲染。如果 warn 的值是 false，则组件不会渲染： -->
+    <div id="warn"></div>
+
+    <script type="text/babel">
+        class WarningBanner extends React.Component {
+            render() {
+                const warn = this.props.warn;
+                if (!warn) {
+                    return null;
+                } else {
+                    return (
+                        <div className="warning">
+                            警告！
+                        </div>
+                    )
+                }
+            }
+        }
+
+        class Page extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { showWarning: true };
+                this.handleToggleClick = this.handleToggleClick.bind(this);
+            }
+
+            handleToggleClick() {
+                this.setState(prevState => ({
+                    showWarning: !prevState.showWarning
+                }))
+            }
+
+            render() {
+                return (
+                    <div>
+                        <WarningBanner warn={this.state.showWarning} />
+                        <button onClick={this.handleToggleClick}>
+                            {this.state.showWarning ? "隐藏" : "显示"}
+                        </button>
+                    </div>
+                )
+            }
+        }
+
+
+        ReactDOM.render(
+            <Page />,
+            document.getElementById("warn")
+        )
+    </script>
+</body>
+
+</html>

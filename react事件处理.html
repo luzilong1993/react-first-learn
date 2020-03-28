@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>react事件处理</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+
+<body>
+    <!-- 
+
+        React 元素的事件处理和 DOM 元素类似。但是有一点语法上的不同:
+
+        React 事件绑定属性的命名采用驼峰式写法，而不是小写。
+        如果采用 JSX 的语法你需要传入一个函数作为事件处理函数，而不是一个字符串(DOM 元素的写法)
+
+        在 React 中另一个不同是你不能使用返回 false 的方式阻止默认行为， 你必须明确的使用 preventDefault。
+     -->
+    <div id="example"></div>
+    <script type="text/babel">
+        let ActionClick = () => {
+            let handleClick = e => {
+                e.preventDefault;
+                console.log("我被点击了")
+            }
+
+            return (
+                <a href="#" onClick={handleClick}>点击试试</a>
+            )
+        }
+
+        ReactDOM.render(
+            <ActionClick />,
+            document.getElementById("example")
+        )
+    </script>
+
+    <!-- 使用class定义一个组件的时候，事件处理器会成为一个类方法 -->
+
+    <div id="classFun"></div>
+
+    <script type="text/babel">
+        class Toggle extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { isToggleOn: true }
+
+                // 这边绑定是必要的，这样`this`才能在回调函数中使用
+
+                this.handleClick = this.handleClick.bind(this);
+            }
+
+            handleClick() {
+                this.setState(prevState => ({
+                    isToggleOn: !prevState.isToggleOn
+                }))
+            }
+
+            render() {
+                return (
+                    <button onClick={this.handleClick}>
+                        {this.state.isToggleOn ? "ON" : "OFF"}
+                    </button>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <Toggle />,
+            document.getElementById("classFun")
+        )
+    </script>
+
+
+    <!-- 解决不使用Bind方法1 -->
+    <div id="classFun1"></div>
+
+    <script type="text/babel">
+        class Toggle1 extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { isToggleOn: true }
+            }
+
+            handleClick = () => {
+                this.setState(prevState => ({
+                    isToggleOn: !prevState.isToggleOn
+                }))
+            }
+
+            render() {
+                return (
+                    <button onClick={this.handleClick}>
+                        {this.state.isToggleOn ? "ON" : "OFF"}
+                    </button>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <Toggle1 />,
+            document.getElementById("classFun1")
+        )
+    </script>
+
+    <!-- 解决不使用Bind方法2 -->
+    <div id="classFun2"></div>
+
+    <script type="text/babel">
+        class Toggle2 extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { isToggleOn: true }
+            }
+
+            handleClick() {
+                this.setState(prevState => ({
+                    isToggleOn: !prevState.isToggleOn
+                }))
+            }
+
+            render() {
+                return (
+                    <button onClick={(e) => this.handleClick(e)}>
+                        {this.state.isToggleOn ? "ON" : "OFF"}
+                    </button>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <Toggle2 />,
+            document.getElementById("classFun2")
+        )
+    </script>
+
+
+    <!-- 向事件处理程序传递参数 -->
+    <!-- <button onClick={(e) => this.deleteRow(id, e)}>Delete Row</button>
+            <button onClick={this.deleteRow.bind(this, id)}>Delete Row</button> -->
+
+    <div id="prop"></div>
+    <script type="text/babel">
+        class Popper extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = { name: "hello 小六" }
+            }
+            preventPop(name, e) {
+                e.preventDefault;
+                alert(name);
+
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h1>hello</h1>
+                        <a href="http://www.baidu.com" onClick={this.preventPop.bind(this, this.state.name)}>点我</a>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(
+            <Popper />,
+            document.getElementById("prop")
+
+        )
+    </script>
+</body>
+
+</html>
